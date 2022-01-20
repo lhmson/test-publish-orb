@@ -1,0 +1,47 @@
+description: >
+  Upload application to Kobiton App Repository.
+
+executor: default
+
+parameters:
+  KOBITON_APP_NAME:
+    type: string
+    description: Title of the app to be built (optional)
+    default: "demo-app"
+  KOBITON_APP_PATH:
+    type: string
+    description: |
+      Path to the app .apk or .ipa file (should be in the same repo
+      and start with ../ for example: ../test.apk) (required as parameter in config file)
+  KOBITON_APP_ID:
+    type: string
+    description: App ID in Kobiton - use this in case you want to upload new version of an existing app in Kobiton (optional)
+    default: ""
+  KOBITON_USERNAME:
+    type: env_var_name
+    description: The user to upload to Kobiton (required as env variable in project settings)
+    default: KOBITON_USERNAME
+  KOBITON_API_KEY:
+    type: env_var_name
+    description: Specific key to access Kobiton API (required as env variable in project settings)
+    default: KOBITON_API_KEY
+  KOBITON_APP_TYPE:
+    type: enum
+    description: Type of the app to be uploaded - Android (apk) or iOS (ipa)
+    default: "apk"
+    enum: ["apk", "ipa"]
+  KOBITON_APP_ACCESS:
+    type: enum
+    description: You can either to make this app private or available for everyone in the organization (private vs. public)
+    default: "public"
+    enum: ["public", "private"]
+
+steps:
+  - upload:
+      KOBITON_APP_NAME: <<parameters.KOBITON_APP_NAME>>
+      KOBITON_APP_PATH: <<parameters.KOBITON_APP_PATH>>
+      KOBITON_APP_ID: <<parameters.KOBITON_APP_ID>>
+      KOBITON_USERNAME: <<parameters.KOBITON_USERNAME>>
+      KOBITON_API_KEY: <<parameters.KOBITON_API_KEY>>
+      KOBITON_APP_TYPE: <<parameters.KOBITON_APP_TYPE>>
+      KOBITON_APP_ACCESS: <<parameters.KOBITON_APP_ACCESS>>
